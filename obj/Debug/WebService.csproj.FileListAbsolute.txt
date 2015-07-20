@@ -1,0 +1,10 @@
+C:\Users\MAC\Desktop\Github\WebService\bin\WebService.dll
+C:\Users\MAC\Desktop\Github\WebService\bin\WebService.pdb
+C:\Users\MAC\Desktop\Github\WebService\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\MAC\Desktop\Github\WebService\obj\Debug\WebService.dll
+C:\Users\MAC\Desktop\Github\WebService\obj\Debug\WebService.pdb
+C:\Users\Administrator\Desktop\WebService\bin\WebService.dll
+C:\Users\Administrator\Desktop\WebService\bin\WebService.pdb
+C:\Users\Administrator\Desktop\WebService\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\WebService\obj\Debug\WebService.dll
+C:\Users\Administrator\Desktop\WebService\obj\Debug\WebService.pdb
