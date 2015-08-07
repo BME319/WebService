@@ -45,6 +45,8 @@ namespace WebService.DataClass
 
         public string ClinicDateMark { get; set; }
 
+        public string mark_contitue { get; set; }
+
         public Clinic()
         {
             History = new List<ClinicBasicInfoandTime>();

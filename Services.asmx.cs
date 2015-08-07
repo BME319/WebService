@@ -6745,8 +6745,24 @@ namespace WebService
 
                         if ((history[n].Tag == "") || (history[n].Tag == null))
                         {
-                            history[n].Tag = "住院中";
-                            history[n].Color = PsClinicalInfo.GetColor("住院中");
+                            //防止门诊、急诊逸出
+                            if (history[n].VisitId.Substring(0, 1) == "I")  //住院
+                            {
+                                history[n].Tag = "住院中";
+                                history[n].Color = PsClinicalInfo.GetColor("住院中");
+                            }
+                            else if (history[n].VisitId.Substring(0, 1) == "O") //门诊
+                            {
+                                history[n].Tag = "";//门诊
+                                history[n].Color = PsClinicalInfo.GetColor("门诊");
+                            }
+                            else if (history[n].VisitId.Substring(0, 1) == "E") //急诊
+                            {
+                                history[n].Tag = "";//急诊
+                                history[n].Color = PsClinicalInfo.GetColor("急诊");
+                            }
+                            //history[n].Tag = "住院中";
+                            //history[n].Color = PsClinicalInfo.GetColor("住院中");
                         }
                         else
                         {
@@ -6770,6 +6786,24 @@ namespace WebService
                 Clinic.AdmissionDateMark = DT_Clinical_ClinicInfo.Rows[mark]["精确时间"].ToString();
                 Clinic.ClinicDateMark = DT_Clinical_ClinicInfo.Rows[mark]["类型"].ToString();
 
+                //确定是否能继续加载
+                if ((DT_Clinical_ClinicInfo.Rows.Count - 1) < Num)
+                {
+                    Clinic.mark_contitue = "0";
+                }
+                else
+                {
+                    string mark_in = PsClinicalInfo.GetNextInDate(_cnCache, UserId, Clinic.AdmissionDateMark);
+                    string mark_out = PsClinicalInfo.GetNextOutDate(_cnCache, UserId, Clinic.ClinicDateMark);
+                    if (((mark_in == "") && (mark_out == "")) || ((mark_in == null) && (mark_out == null)))
+                    {
+                        Clinic.mark_contitue = "0";
+                    }
+                    else
+                    {
+                        Clinic.mark_contitue = "1";
+                    }
+                }
                 #endregion
 
                 return Clinic;
@@ -7024,8 +7058,24 @@ namespace WebService
 
                         if ((history[n].Tag == "") || (history[n].Tag == null))
                         {
-                            history[n].Tag = "住院中";
-                            history[n].Color = PsClinicalInfo.GetColor("住院中");
+                            //防止门诊、急诊逸出
+                            if (history[n].VisitId.Substring(0, 1) == "I")  //住院
+                            {
+                                history[n].Tag = "住院中";
+                                history[n].Color = PsClinicalInfo.GetColor("住院中");
+                            }
+                            else if (history[n].VisitId.Substring(0, 1) == "O") //门诊
+                            {
+                                history[n].Tag = "";//门诊
+                                history[n].Color = PsClinicalInfo.GetColor("门诊");
+                            }
+                            else if (history[n].VisitId.Substring(0, 1) == "E") //急诊
+                            {
+                                history[n].Tag = "";//急诊
+                                history[n].Color = PsClinicalInfo.GetColor("急诊");
+                            }
+                            //history[n].Tag = "住院中";
+                            //history[n].Color = PsClinicalInfo.GetColor("住院中");
                         }
                         else
                         {
@@ -7049,6 +7099,24 @@ namespace WebService
                 Clinic.AdmissionDateMark = DT_Clinical_ClinicInfo.Rows[mark]["精确时间"].ToString();
                 Clinic.ClinicDateMark = DT_Clinical_ClinicInfo.Rows[mark]["类型"].ToString();
 
+                //确定是否能继续加载
+                if ((DT_Clinical_ClinicInfo.Rows.Count - 1) < Num)
+                {
+                    Clinic.mark_contitue = "0";
+                }
+                else
+                {
+                    string mark_in = PsClinicalInfo.GetNextInDate(_cnCache, UserId, Clinic.AdmissionDateMark);
+                    string mark_out = PsClinicalInfo.GetNextOutDate(_cnCache, UserId, Clinic.ClinicDateMark);
+                    if (((mark_in == "") && (mark_out == "")) || ((mark_in == null) && (mark_out == null)))
+                    {
+                        Clinic.mark_contitue = "0";
+                    }
+                    else
+                    {
+                        Clinic.mark_contitue = "1";
+                    }
+                }
                 #endregion
 
                 //return Clinic;
