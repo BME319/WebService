@@ -7613,27 +7613,32 @@ namespace WebService
             {
                 #region
                 //当用户缺少某项参数时，设置一个默认值
-                int Age = 24;//年龄24岁
-                int Gender = 1;//性别男
+                int Age = 0;//年龄24岁
+                int Gender = 0;//性别男
 
-                int Height = 176;//身高176cm
-                int Weight = 69;//体重69千克
+                int Height = 0;//身高176cm
+                int Weight = 0;//体重69千克
 
-                int Heartrate = 72;//心率
+                int AbdominalGirth = 0; //腹围
 
-                int Parent = 1;//父母中至少有一方有高血压
-                int Smoke = 2;//不抽烟
+                int Heartrate = 0;//心率
+
+                int Parent = 0;//父母中至少有一方有高血压
+                int Smoke = 0;//不抽烟
                 int Stroke = 0;//没有中风
-                int Lvh = 1; ;//有左心室肥大
-                int Diabetes = 1;//有伴随糖尿病
+                int Lvh = 0; ;//有左心室肥大
+                int Diabetes = 0;//有伴随糖尿病
                 int Treat = 0;//高血压是否在治疗（接受过）没有
-                int Heartattack = 1;//有过心脏事件（心血管疾病）
+                int Heartattack = 0;//有过心脏事件（心血管疾病）
                 int Af = 0;//没有过房颤
-                int Chd = 1;//有冠心病(心肌梗塞)
+                int Chd = 0;//有冠心病(心肌梗塞)
                 int Valve = 0;//没有心脏瓣膜病
-                double Tcho = 5.2;//总胆固醇浓度5.2mmol/L
-                double Creatinine = 140;//肌酐浓度140μmoI/L
-                double Hdlc = 1.21;//高密度脂蛋白胆固醇1.21g/ml
+                double Tcho = 0;//总胆固醇浓度5.2mmol/L
+                double Creatinine = 0;//肌酐浓度140μmoI/L
+                double Hdlc = 0;//高密度脂蛋白胆固醇1.21g/ml
+
+                int SBP = 0;//当前收缩压
+                int DBP = 0;//当前舒张压
 
                 CacheSysList BaseList = PsBasicInfo.GetBasicInfo(_cnCache, UserId);
                 if (BaseList != null)
@@ -7655,6 +7660,15 @@ namespace WebService
                 {
                     Gender = 0;
                 }
+
+                if (Gender == 1)//为计算方便，性别值对调
+                {
+                    Gender = 0;
+                }
+                else
+                {
+                    Gender=1;
+                }
                 //上面获取患者的年龄和性别，并调整好数值
 
                 //CacheSysList DetailList = PsBasicInfoDetail.GetPatientDetailInfo(_cnCache, UserId);
@@ -7674,6 +7688,8 @@ namespace WebService
                 //int Weight1 = PsBasicInfoDetail.GetMaxItemSeq(_cnCache, UserId, "M1", "M1006_02");
                 // if (Weight1 >= 1)
                 //{
+
+                //获取体重，身高和BMI
                 string Weight1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_02", 1);
                 if (Weight1 != "" && Weight1 != "0" && Weight1 != null)
                 {
@@ -7690,9 +7706,15 @@ namespace WebService
                     Height = Convert.ToInt32(Height1);
                     //Height = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_01", 1));
                 }
-                double BMI = Weight / ((Height / 100) ^ 2);
+                string BMIStr = ((double)Weight / ((double)Height * (double)Height) * 10000).ToString("f2");
+                double BMI = double.Parse(BMIStr);
 
-                //获取身高，体重和BMI
+                //获取腹围
+                string AbdominalGirth1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_13", 1);
+                if (AbdominalGirth1 != "" && AbdominalGirth1 != "0" && AbdominalGirth1 != null)
+                {
+                    AbdominalGirth = Convert.ToInt32(AbdominalGirth1);
+                }
 
                 string Heart = PsVitalSigns.GetLatestPatientVitalSigns(_cnCache, UserId, "HeartRate", "HeartRate_1");
                 if (Heart != "" && Heart != "0" && Heart != null)
@@ -7705,7 +7727,7 @@ namespace WebService
                 // if (ItemSeq1 >= 1)
                 // {
                 string Parent1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1002_01", 1);
-                if ( Parent1 != "" && Parent1 != "0" && Parent1 != null)
+                if (Parent1 != "" && Parent1 != "0" && Parent1 != null)
                 {
                     Parent = Convert.ToInt32(Parent1);
                 }
@@ -7754,7 +7776,7 @@ namespace WebService
                 // {
 
                 string Lvh1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_09", 1);
-                if ( Lvh1 != "" && Lvh1 != "0" && Lvh1 != null)
+                if (Lvh1 != "" && Lvh1 != "0" && Lvh1 != null)
                 {
                     Lvh = Convert.ToInt32(Lvh1);
                 }
@@ -7803,7 +7825,7 @@ namespace WebService
                 // if (ItemSeq7 >= 1)
                 //  {
                 string Heartattack1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_04", 1);
-                if ( Heartattack1 != "" && Heartattack1 != "0" && Heartattack1 != null)
+                if (Heartattack1 != "" && Heartattack1 != "0" && Heartattack1 != null)
                 {
                     Heartattack = Convert.ToInt32(Heartattack1);
                 }
@@ -7819,7 +7841,7 @@ namespace WebService
                 //if (ItemSeq8 >= 1)
                 //{
                 string Af1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_05", 1);
-                if ( Af1 != "" && Af1 != "0" && Af1 != null)
+                if (Af1 != "" && Af1 != "0" && Af1 != null)
                 {
                     Af = Convert.ToInt32(Af1);
                 }
@@ -7867,7 +7889,7 @@ namespace WebService
                 //if (ItemSeq11 > 1)
                 //{
                 string Tcho1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_09", 1);
-                if ( Tcho1 != "" && Tcho1 != "0" && Tcho1 != null)
+                if (Tcho1 != "" && Tcho1 != "0" && Tcho1 != null)
                 {
                     Tcho = Convert.ToDouble(Tcho1);
                 }
@@ -7890,10 +7912,26 @@ namespace WebService
                 // if (ItemSeq13 > 1)
                 //{
                 string Hdlc1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_10", 1);
-                if ( Hdlc1 != "" && Hdlc1 != "0" && Hdlc1 != null)
+                if (Hdlc1 != "" && Hdlc1 != "0" && Hdlc1 != null)
                 {
                     Hdlc = Convert.ToDouble(Hdlc1);
                 }
+
+                //收缩压和舒张压
+                string SBP1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_05", 1);
+                if (SBP1 != "" && SBP1 != "0" && SBP1 != null)
+                {
+                    SBP = Convert.ToInt32(SBP1);
+                }
+
+                string DBP1 = PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_06", 1);
+                if (DBP1 != "" && DBP1 != "0" && DBP1 != null)
+                {
+                    DBP = Convert.ToInt32(DBP1);
+                }
+
+
+
                 //  Hdlc = Convert.ToDouble(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1006_10", 1));
                 // }
                 //高密度脂蛋白胆固醇
@@ -8275,9 +8313,9 @@ namespace WebService
                 double FraminghamRiskInfactor = 0.0;
                 if (Gender == 1) //男性
                 {
-                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log10(Age) * 3.06117;//性别
-                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log10(Tcho) * 1.12370;//总胆固醇
-                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log10(Hdlc) * (-0.93263);//高密度脂蛋白胆固醇
+                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log(Age) * 3.06117;//性别
+                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log(Tcho) * 1.12370;//总胆固醇
+                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log(Hdlc) * (-0.93263);//高密度脂蛋白胆固醇
                     if (Smoke == 1)
                     {
                         FraminghamRiskInfactor = FraminghamRiskInfactor + 0.65451;//抽烟
@@ -8291,9 +8329,9 @@ namespace WebService
                 }
                 else //女性
                 {
-                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log10(Age) * 2.3288;//性别
-                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log10(Tcho) * 1.20904;//总胆固醇
-                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log10(Hdlc) * (-0.70833);//高密度脂蛋白胆固醇
+                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log(Age) * 2.3288;//性别
+                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log(Tcho) * 1.20904;//总胆固醇
+                    FraminghamRiskInfactor = FraminghamRiskInfactor + Math.Log(Hdlc) * (-0.70833);//高密度脂蛋白胆固醇
                     if (Smoke == 1)
                     {
                         FraminghamRiskInfactor = FraminghamRiskInfactor + 0.52873;//抽烟
@@ -8665,6 +8703,8 @@ namespace WebService
                 Input.Columns.Add(new DataColumn("Gender", typeof(int)));
                 Input.Columns.Add(new DataColumn("Height", typeof(int)));
                 Input.Columns.Add(new DataColumn("Weight", typeof(int)));
+                Input.Columns.Add(new DataColumn("AbdominalGirth", typeof(int)));
+                Input.Columns.Add(new DataColumn("BMI", typeof(double)));
                 Input.Columns.Add(new DataColumn("Heartrate", typeof(int)));
                 Input.Columns.Add(new DataColumn("Parent", typeof(int)));
                 Input.Columns.Add(new DataColumn("Smoke", typeof(int)));
@@ -8685,7 +8725,10 @@ namespace WebService
                 Input.Columns.Add(new DataColumn("StrokeRiskInfactor", typeof(int)));
                 Input.Columns.Add(new DataColumn("HeartFailureRiskInfactor", typeof(int)));
 
-                Input.Rows.Add(Age, Gender, Height, Weight, Heartrate, Parent, Smoke, Stroke, Lvh, Diabetes, Treat, Heartattack, Af, Chd, Valve, Tcho, Creatinine, Hdlc, Hyperother, HarvardRiskInfactor, FraminghamRiskInfactor, StrokeRiskInfactor, HeartFailureRiskInfactor);
+                Input.Columns.Add(new DataColumn("SBP", typeof(int)));
+                Input.Columns.Add(new DataColumn("DBP", typeof(int)));
+
+                Input.Rows.Add(Age, Gender, Height, Weight, AbdominalGirth, BMI, Heartrate, Parent, Smoke, Stroke, Lvh, Diabetes, Treat, Heartattack, Af, Chd, Valve, Tcho, Creatinine, Hdlc, Hyperother, HarvardRiskInfactor, FraminghamRiskInfactor, StrokeRiskInfactor, HeartFailureRiskInfactor, SBP, DBP);
 
                 DataSet Inputset = new DataSet();
                 Inputset.Tables.Add(Input);
