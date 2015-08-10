@@ -6612,7 +6612,7 @@ namespace WebService
 
                     //排序   按“精准时间”, “VID”    排序后, “时间”、“VID”相同的合并  【精准时间到s,时间到天】
                     DataView dv = DT_Clinical_All.DefaultView;
-                    dv.Sort = "时间 desc,  VisitId Asc, 精确时间 Asc"; //目前采用方案二，
+                    dv.Sort = "时间 desc,  VisitId desc, 精确时间 Asc"; //目前采用方案二，
                     //时间轴需要倒序，升序Asc    时间轴最外层 日期倒序 某一天内按照时分升序  注意：遇到同一天 又住院又门诊的，即不同VID  方案：一、不拆开，按时间排即可，问题是会混乱； 二，拆开，时间、VID、精确时间   这样的话，按照目前是在一个方框里 颜色字体大小区分开
                     DataTable dtNew = dv.ToTable();
 
@@ -6925,7 +6925,7 @@ namespace WebService
 
                     //排序   按“精准时间”, “VID”    排序后, “时间”、“VID”相同的合并  【精准时间到s,时间到天】
                     DataView dv = DT_Clinical_All.DefaultView;
-                    dv.Sort = "时间 desc,  VisitId Asc, 精确时间 Asc"; //目前采用方案二，
+                    dv.Sort = "时间 desc,  VisitId desc, 精确时间 Asc"; //目前采用方案二，
                     //时间轴需要倒序，升序Asc    时间轴最外层 日期倒序 某一天内按照时分升序  注意：遇到同一天 又住院又门诊的，即不同VID  方案：一、不拆开，按时间排即可，问题是会混乱； 二，拆开，时间、VID、精确时间   这样的话，按照目前是在一个方框里 颜色字体大小区分开
                     DataTable dtNew = dv.ToTable();
 
