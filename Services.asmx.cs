@@ -7613,7 +7613,7 @@ namespace WebService
             {
                 #region
                 //当用户缺少某项参数时，设置一个默认值
-                int Age = 0;//年龄24岁
+                int Age = 1;//年龄默认1岁（避免出现0岁）
                 int Gender = 0;//性别男
 
                 int Height = 0;//身高176cm
@@ -7633,12 +7633,25 @@ namespace WebService
                 int Af = 0;//没有过房颤
                 int Chd = 0;//有冠心病(心肌梗塞)
                 int Valve = 0;//没有心脏瓣膜病
+
                 double Tcho = 0;//总胆固醇浓度5.2mmol/L
                 double Creatinine = 0;//肌酐浓度140μmoI/L
                 double Hdlc = 0;//高密度脂蛋白胆固醇1.21g/ml
 
                 int SBP = 0;//当前收缩压
                 int DBP = 0;//当前舒张压
+
+                //用于取得真实值
+                int piParent = 0;//父母中至少有一方有高血压
+                int piSmoke = 0;//不抽烟
+                int piStroke = 0;//没有中风
+                int piLvh = 0; ;//有左心室肥大
+                int piDiabetes = 0;//有伴随糖尿病
+                int piTreat = 0;//高血压是否在治疗（接受过）没有
+                int piHeartattack = 0;//有过心脏事件（心血管疾病）
+                int piAf = 0;//没有过房颤
+                int piChd = 0;//有冠心病(心肌梗塞)
+                int piValve = 0;//没有心脏瓣膜病
 
                 CacheSysList BaseList = PsBasicInfo.GetBasicInfo(_cnCache, UserId);
                 if (BaseList != null)
@@ -7730,6 +7743,7 @@ namespace WebService
                 if (Parent1 != "" && Parent1 != "0" && Parent1 != null)
                 {
                     Parent = Convert.ToInt32(Parent1);
+                    piParent = Parent;
                 }
                 if (Parent > 1)
                 {
@@ -7744,6 +7758,7 @@ namespace WebService
                 if (Smoke1 != "" && Smoke1 != "0" && Smoke1 != null)
                 {
                     Smoke = Convert.ToInt32(Smoke1);
+                    piSmoke = Smoke;
                 }
 
                 // Smoke = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1005_04", 1));
@@ -7761,6 +7776,7 @@ namespace WebService
                 if (Stroke1 != "" && Stroke1 != "0" && Stroke1 != null)
                 {
                     Stroke = Convert.ToInt32(Stroke1);
+                    piStroke = Stroke;
                 }
                 //  Stroke = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_07", 1));
                 // }
@@ -7779,6 +7795,7 @@ namespace WebService
                 if (Lvh1 != "" && Lvh1 != "0" && Lvh1 != null)
                 {
                     Lvh = Convert.ToInt32(Lvh1);
+                    piLvh = Lvh;
                 }
                 //   Lvh = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_09", 1));
                 // }
@@ -7795,6 +7812,7 @@ namespace WebService
                 if (Diabetes1 != "" && Diabetes1 != "0" && Diabetes1 != null)
                 {
                     Diabetes = Convert.ToInt32(Diabetes1);
+                    piDiabetes = Diabetes;
                 }
                 //  Diabetes = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1002_02", 1));
                 // }
@@ -7812,6 +7830,7 @@ namespace WebService
                 if (Treat1 != "" && Treat1 != "0" && Treat1 != null)
                 {
                     Treat = Convert.ToInt32(Treat1);
+                    piTreat = Treat;
                 }
                 //  Treat = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1003_02", 1));
                 // }
@@ -7828,6 +7847,7 @@ namespace WebService
                 if (Heartattack1 != "" && Heartattack1 != "0" && Heartattack1 != null)
                 {
                     Heartattack = Convert.ToInt32(Heartattack1);
+                    piHeartattack = Heartattack;
                 }
                 //    Heartattack = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_04", 1));
                 //   }
@@ -7844,6 +7864,7 @@ namespace WebService
                 if (Af1 != "" && Af1 != "0" && Af1 != null)
                 {
                     Af = Convert.ToInt32(Af1);
+                    piAf = Af;
                 }
                 //  Af = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_05", 1));
                 // }
@@ -7860,6 +7881,7 @@ namespace WebService
                 if (Chd1 != "" && Chd1 != "0" && Chd1 != null)
                 {
                     Chd = Convert.ToInt32(Chd1);
+                    piChd = Chd;
                 }
                 //   Chd = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_02", 1));
                 // }
@@ -7876,6 +7898,7 @@ namespace WebService
                 if (Valve1 != "" && Valve1 != "0" && Valve1 != null)
                 {
                     Valve = Convert.ToInt32(Valve1);
+                    piValve = Valve;
                 }
                 //  Valve = Convert.ToInt32(PsBasicInfoDetail.GetValue(_cnCache, UserId, "M1", "M1001_06", 1));
                 // }
@@ -8728,7 +8751,18 @@ namespace WebService
                 Input.Columns.Add(new DataColumn("SBP", typeof(int)));
                 Input.Columns.Add(new DataColumn("DBP", typeof(int)));
 
-                Input.Rows.Add(Age, Gender, Height, Weight, AbdominalGirth, BMI, Heartrate, Parent, Smoke, Stroke, Lvh, Diabetes, Treat, Heartattack, Af, Chd, Valve, Tcho, Creatinine, Hdlc, Hyperother, HarvardRiskInfactor, FraminghamRiskInfactor, StrokeRiskInfactor, HeartFailureRiskInfactor, SBP, DBP);
+                Input.Columns.Add(new DataColumn("piParent", typeof(int)));
+                Input.Columns.Add(new DataColumn("piSmoke", typeof(int)));
+                Input.Columns.Add(new DataColumn("piStroke", typeof(int)));
+                Input.Columns.Add(new DataColumn("piLvh", typeof(int)));
+                Input.Columns.Add(new DataColumn("piDiabetes", typeof(int)));
+                Input.Columns.Add(new DataColumn("piTreat", typeof(int)));
+                Input.Columns.Add(new DataColumn("piHeartattack", typeof(int)));
+                Input.Columns.Add(new DataColumn("piAf", typeof(int)));
+                Input.Columns.Add(new DataColumn("piChd", typeof(int)));
+                Input.Columns.Add(new DataColumn("piValve", typeof(int)));
+
+                Input.Rows.Add(Age, Gender, Height, Weight, AbdominalGirth, BMI, Heartrate, Parent, Smoke, Stroke, Lvh, Diabetes, Treat, Heartattack, Af, Chd, Valve, Tcho, Creatinine, Hdlc, Hyperother, HarvardRiskInfactor, FraminghamRiskInfactor, StrokeRiskInfactor, HeartFailureRiskInfactor, SBP, DBP, piParent, piSmoke, piStroke, piLvh, piDiabetes, piTreat, piHeartattack, piAf, piChd, piValve);
 
                 DataSet Inputset = new DataSet();
                 Inputset.Tables.Add(Input);
