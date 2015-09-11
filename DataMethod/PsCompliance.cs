@@ -877,24 +877,42 @@ namespace WebService.DataMethod
                     string SysValue = "";
                     string DiaValue = "";
                     string Unit = "";
-                    CacheSysList SysList = PsVitalSigns.GetSignByDay(pclsCache, PatientId, "Bloodpressure", "Bloodpressure_1", Date);
-                    if (SysList != null)
+
+                     string conditionBP1 = " TaskCode = 'Bloodpressure|Bloodpressure_1'";
+                    DataRow[] BP1Rows = ComplianceList.Select(conditionBP1);
+                    if ((BP1Rows != null) && (BP1Rows.Length == 1))
                     {
-                        mark = 1;
-                        BPTime = Convert.ToInt32(SysList[1].ToString());  //时刻数据库是"1043"形式，需要转换  取两者最新的那个时间好了 即谁大取谁
-                        SysValue = SysList[2].ToString();
-                        Unit = SysList[3].ToString();
-                    }
-                    CacheSysList DiaList = PsVitalSigns.GetSignByDay(pclsCache, PatientId, "Bloodpressure", "Bloodpressure_2", Date);
-                    if (DiaList != null)
-                    {
-                        mark = 1;
-                        int BPTime1 = Convert.ToInt32(DiaList[1].ToString());
-                        if (BPTime <= BPTime1)
+                        if (BP1Rows[0]["Status"].ToString() == "1")
                         {
-                            BPTime = BPTime1;
+                            CacheSysList SysList = PsVitalSigns.GetSignByDay(pclsCache, PatientId, "Bloodpressure", "Bloodpressure_1", Date);
+                            if (SysList != null)
+                            {
+                                mark = 1;
+                                BPTime = Convert.ToInt32(SysList[1].ToString());  //时刻数据库是"1043"形式，需要转换  取两者最新的那个时间好了 即谁大取谁
+                                SysValue = SysList[2].ToString();
+                                Unit = SysList[3].ToString();
+                            }
                         }
-                        DiaValue = DiaList[2].ToString();
+                    }
+
+                     string conditionBP2 = " TaskCode = 'Bloodpressure|Bloodpressure_2'";
+                    DataRow[] BP2Rows = ComplianceList.Select(conditionBP2);
+                    if ((BP2Rows != null) && (BP2Rows.Length == 1))
+                    {
+                        if (BP2Rows[0]["Status"].ToString() == "1")
+                        {
+                            CacheSysList DiaList = PsVitalSigns.GetSignByDay(pclsCache, PatientId, "Bloodpressure", "Bloodpressure_2", Date);
+                            if (DiaList != null)
+                            {
+                                mark = 1;
+                                int BPTime1 = Convert.ToInt32(DiaList[1].ToString());
+                                if (BPTime <= BPTime1)
+                                {
+                                    BPTime = BPTime1;
+                                }
+                                DiaValue = DiaList[2].ToString();
+                            }
+                        }
                     }
 
                     VitalTaskCom = new VitalTaskCom();
@@ -915,22 +933,30 @@ namespace WebService.DataMethod
 
 
                     //脉率任务可能没没有，需要确认
-                    string condition1 = " TaskCode = 'Pulserate|Pulserate_1'";
-                    DataRow[] PulserateRows = ComplianceList.Select(condition1);
+                    string conditionPR = " TaskCode = 'Pulserate|Pulserate_1'";
+                    DataRow[] PulserateRows = ComplianceList.Select(conditionPR);
 
                     if ((PulserateRows != null) && (PulserateRows.Length == 1))
                     {
                         VitalTaskCom = new VitalTaskCom();
                         VitalTaskCom.SignName = "脉率";
 
-                        CacheSysList PulList = PsVitalSigns.GetSignByDay(pclsCache, PatientId, "Pulserate", "Pulserate_1", Date);
-                        if (PulList != null)
+                        if (PulserateRows[0]["Status"].ToString() == "1")
                         {
+                            CacheSysList PulList = PsVitalSigns.GetSignByDay(pclsCache, PatientId, "Pulserate", "Pulserate_1", Date);
+                            if (PulList != null)
+                            {
 
-                            VitalTaskCom.Status = "1";
-                            VitalTaskCom.Time = PsVitalSigns.TransTime(PulList[1].ToString());
-                            VitalTaskCom.Value = PulList[2].ToString();
-                            VitalTaskCom.Unit = PulList[3].ToString();
+                                VitalTaskCom.Status = "1";
+                                VitalTaskCom.Time = PsVitalSigns.TransTime(PulList[1].ToString());
+                                VitalTaskCom.Value = PulList[2].ToString();
+                                VitalTaskCom.Unit = PulList[3].ToString();
+                            }
+                            else
+                            {
+                                VitalTaskCom.Status = "0";
+
+                            }
                         }
                         else
                         {
