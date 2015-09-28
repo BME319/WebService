@@ -5775,15 +5775,40 @@ namespace WebService
             {
                 DataSet DS_SynDetail = new DataSet();
                 DataTable DT_SynDetail = new DataTable();
+
                 DT_SynDetail = PsExamination.GetNewExam(_cnCache, UserId);
                 DS_SynDetail.Tables.Add(DT_SynDetail);
                 DT_SynDetail = PsLabTestDetails.GetNewLabTest(_cnCache, UserId);
                 DS_SynDetail.Tables.Add(DT_SynDetail);
+
                 return DS_SynDetail;
             }
             catch (Exception ex)
             {
                 HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "SynBasicInfoDetail", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "同步患者糖尿病模块下的某些信息   Table: Ps.LabTestDetail  Author:SYF  2015-09-28")]
+        // SynBasicInfoDetailForM2 同步患者糖尿病模块下的某些信息  SYF  2015-09-28
+        public DataSet SynBasicInfoDetailForM2(string UserId)
+        {
+            try
+            {
+                DataSet DS_SynDetail = new DataSet();
+                DataTable DT_SynDetail = new DataTable();
+                DT_SynDetail = PsLabTestDetails.GetNewLabTestForM2(_cnCache, UserId);
+                if (DT_SynDetail != null)
+                {
+                    DS_SynDetail.Tables.Add(DT_SynDetail);
+                }
+                return DS_SynDetail;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "SynBasicInfoDetailForM2", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
                 return null;
                 throw (ex);
             }
