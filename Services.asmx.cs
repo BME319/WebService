@@ -4286,7 +4286,7 @@ namespace WebService
         [WebMethod(Description = "更新一条药物治疗信息 Table：Ps.DrugRecord Author:CSQ  2014-12-09")]
         //UpdateDrugRecord 更新一条药物治疗信息 CSQ 2014-12-09
         public bool UpdateDrugRecord(string UserId, string VisitId, int OrderNo, int OrderSubNo, int RepeatIndicator, string OrderClass,
-            string OrderCode, string OrderContent, int Dosage, string DosageUnits, string Administration, DateTime StartDateTime, DateTime StopDateTime,
+            string OrderCode, string OrderContent, decimal Dosage, string DosageUnits, string Administration, DateTime StartDateTime, DateTime StopDateTime,
             int Duration, string DurationUnits, string Frequency, int FreqCounter, int FreqInteval, string FreqIntevalUnit, string DeptCode, string revUserId, string TerminalName, string TerminalIP, int DeviceType)
         {
             try
@@ -4307,7 +4307,7 @@ namespace WebService
         [WebMethod(Description = "往数据库中插入一条药物治疗信息 Table：Ps.DrugRecord Author:CSQ  2014-12-04")]
         //SetDrugRecord 往数据库中插入一条药物治疗信息 CSQ 2014-12-04
         public bool SetDrugRecord(string UserId, string VisitId, int OrderSubNo, int RepeatIndicator, string OrderClass,
-            string OrderCode, string OrderContent, int Dosage, string DosageUnits, string Administration, DateTime StartDateTime, DateTime StopDateTime,
+            string OrderCode, string OrderContent, decimal Dosage, string DosageUnits, string Administration, DateTime StartDateTime, DateTime StopDateTime,
             int Duration, string DurationUnits, string Frequency, int FreqCounter, int FreqInteval, string FreqIntevalUnit, string DeptCode, string revUserId, string TerminalName, string TerminalIP, int DeviceType)
         {
             try

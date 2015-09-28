@@ -12,7 +12,7 @@ namespace WebService.DataMethod
     {
         #region <" ZAM 2015-1-20 ">
 
-        public static int SetData(DataConnection pclsCache, string UserId, string VisitId, int OrderNo, int OrderSubNo, int RepeatIndicator, string OrderClass, string OrderCode, string OrderContent, int Dosage, string DosageUnits, string Administration, DateTime StartDateTime, DateTime StopDateTime, int Duration, string DurationUnits, string Frequency, int FreqCounter, int FreqInteval, string FreqIntevalUnit, string DeptCode, string revUserId, string TerminalName, string TerminalIP, int DeviceType)
+        public static int SetData(DataConnection pclsCache, string UserId, string VisitId, int OrderNo, int OrderSubNo, int RepeatIndicator, string OrderClass, string OrderCode, string OrderContent, decimal Dosage, string DosageUnits, string Administration, DateTime StartDateTime, DateTime StopDateTime, int Duration, string DurationUnits, string Frequency, int FreqCounter, int FreqInteval, string FreqIntevalUnit, string DeptCode, string revUserId, string TerminalName, string TerminalIP, int DeviceType)
         {
             int ret = 0;
             try
@@ -338,6 +338,145 @@ namespace WebService.DataMethod
         //}
 
         //20150618 CSQ
+        //public static DataTable GetDrugRecord(DataConnection pclsCache, string piUserId, string piVisitId)
+        //{
+        //    DataTable list = new DataTable();
+        //    list.Columns.Add(new DataColumn("VisitId", typeof(string)));
+        //    list.Columns.Add(new DataColumn("OrderNo", typeof(int)));
+        //    list.Columns.Add(new DataColumn("OrderSubNo", typeof(int)));
+        //    list.Columns.Add(new DataColumn("RepeatIndicatorCode", typeof(int)));
+        //    list.Columns.Add(new DataColumn("RepeatIndicator", typeof(string)));
+        //    list.Columns.Add(new DataColumn("OrderClassCode", typeof(string)));
+        //    list.Columns.Add(new DataColumn("OrderClass", typeof(string)));
+        //    list.Columns.Add(new DataColumn("OrderCode", typeof(string)));
+        //    list.Columns.Add(new DataColumn("OrderContent", typeof(string)));
+        //    list.Columns.Add(new DataColumn("Dosage", typeof(string)));
+        //    list.Columns.Add(new DataColumn("DosageUnitsCode", typeof(string)));
+        //    list.Columns.Add(new DataColumn("DosageUnits", typeof(string)));
+        //    list.Columns.Add(new DataColumn("AdministrationCode", typeof(string)));
+        //    list.Columns.Add(new DataColumn("Administration", typeof(string)));
+        //    list.Columns.Add(new DataColumn("StartDateTime", typeof(string)));
+        //    list.Columns.Add(new DataColumn("StopDateTime", typeof(string)));
+        //    list.Columns.Add(new DataColumn("Frequency", typeof(string)));
+        //    list.Columns.Add(new DataColumn("FreqCounter", typeof(int)));
+        //    list.Columns.Add(new DataColumn("FreqInteval", typeof(int)));
+        //    list.Columns.Add(new DataColumn("FreqIntevalUnitCode", typeof(string)));
+        //    list.Columns.Add(new DataColumn("FreqIntevalUnit", typeof(string)));
+        //    list.Columns.Add(new DataColumn("HistoryContent", typeof(string)));
+        //    list.Columns.Add(new DataColumn("StartDate", typeof(string)));
+        //    list.Columns.Add(new DataColumn("StopDate", typeof(string)));
+        //    CacheCommand cmd = null;
+        //    CacheDataReader cdr = null;
+
+        //    try
+        //    {
+        //        if (!pclsCache.Connect())
+        //        {
+        //            return null;
+        //        }
+        //        cmd = new CacheCommand();
+        //        cmd = Ps.DrugRecord.GetDrugRecordList(pclsCache.CacheConnectionObject);
+        //        cmd.Parameters.Add("piUserId", CacheDbType.NVarChar).Value = piUserId;
+        //        cmd.Parameters.Add("piVisitId", CacheDbType.NVarChar).Value = piVisitId;
+        //        cdr = cmd.ExecuteReader();
+
+        //        while (cdr.Read())
+        //        {
+        //            int OrderSubNo = 0;
+        //            int Dosage = 0;
+        //            int FreqCounter = 0;
+        //            int FreqInteval = 0;
+        //            if (cdr["OrderSubNo"].ToString() != "")
+        //            {
+        //                OrderSubNo = Convert.ToInt32(cdr["OrderSubNo"].ToString());
+        //            }
+
+        //            if (OrderSubNo == 1)       //只拿出OrderSubNo为1的记录
+        //            {
+
+        //                if (cdr["Dosage"].ToString() != "")
+        //                {
+        //                    Dosage = Convert.ToInt32(cdr["Dosage"].ToString());
+        //                }
+        //                if (cdr["FreqCounter"].ToString() != "")
+        //                {
+        //                    FreqCounter = Convert.ToInt32(cdr["FreqCounter"].ToString());
+        //                }
+        //                if (cdr["FreqInteval"].ToString() != "")
+        //                {
+        //                    FreqInteval = Convert.ToInt32(cdr["FreqInteval"].ToString());
+        //                }
+
+        //                //用药开始时间处理（时间轴标准）
+        //                string StartDate = DateTime.Parse(cdr["StartDateTime"].ToString()).ToString("yyyyMMdd");
+        //                //int iStartDate = Convert.ToInt32(StartDate);
+
+        //                //用药结束时间处理
+        //                string EndDate = cdr["StopDateTime"].ToString();
+        //                // int iEndDate = Convert.ToInt32(EndDate);
+        //                // int iDays = iEndDate - iStartDate;
+
+        //                string Content = "";
+        //                Content += cdr["OrderContent"].ToString();
+        //                //Content += cdr["RepeatIndicator"].ToString();
+        //                /*
+        //                if (cdr["RepeatIndicatorCode"].ToString() == "1")    //医嘱：长期几天以上？
+        //                {
+        //                    Content += "（长期)";
+        //                }
+        //                else
+        //                {
+        //                    Content += "（临时)";
+        //                }
+                        
+        //                if (iDays == 0)     //计算用药时长  应该数据库，或者webservice完成
+        //                {
+        //                    Content += "，1天）";
+        //                }
+        //                else if (iDays > 0)
+        //                {
+        //                    string interval = (iDays).ToString();
+        //                    Content += "，";
+        //                    Content += interval;
+        //                    Content += "天）";
+        //                }
+        //                else
+        //                {
+        //                    Content += "）";
+        //                }
+        //                */
+        //                list.Rows.Add(cdr["VisitId"].ToString(), Convert.ToInt32(cdr["OrderNo"].ToString()), OrderSubNo, Convert.ToInt32(cdr["RepeatIndicatorCode"].ToString()), cdr["RepeatIndicator"].ToString(),
+        //                    cdr["OrderClassCode"].ToString(), cdr["OrderClass"].ToString(), cdr["OrderCode"].ToString(), cdr["OrderContent"].ToString(),
+        //                    Dosage, cdr["DosageUnitsCode"].ToString(), cdr["DosageUnits"].ToString(), cdr["AdministrationCode"].ToString(),
+        //                    cdr["Administration"].ToString(), DateTime.Parse(cdr["StartDateTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"), cdr["StopDateTime"].ToString(), cdr["Frequency"].ToString(),
+        //                    FreqCounter, FreqInteval, cdr["FreqIntevalUnitCode"].ToString(), cdr["FreqIntevalUnit"].ToString(), Content, StartDate, EndDate);
+        //            }
+        //        }
+        //        return list;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "PsDrugRecord.GetDrugRecordList", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+        //        return null;
+        //    }
+        //    finally
+        //    {
+        //        if ((cdr != null))
+        //        {
+        //            cdr.Close();
+        //            cdr.Dispose(true);
+        //            cdr = null;
+        //        }
+        //        if ((cmd != null))
+        //        {
+        //            cmd.Parameters.Clear();
+        //            cmd.Dispose();
+        //            cmd = null;
+        //        }
+        //        pclsCache.DisConnect();
+        //    }
+        //}
+
         public static DataTable GetDrugRecord(DataConnection pclsCache, string piUserId, string piVisitId)
         {
             DataTable list = new DataTable();
@@ -350,7 +489,8 @@ namespace WebService.DataMethod
             list.Columns.Add(new DataColumn("OrderClass", typeof(string)));
             list.Columns.Add(new DataColumn("OrderCode", typeof(string)));
             list.Columns.Add(new DataColumn("OrderContent", typeof(string)));
-            list.Columns.Add(new DataColumn("Dosage", typeof(int)));
+            //list.Columns.Add(new DataColumn("Dosage", typeof(int)));
+            list.Columns.Add(new DataColumn("Dosage", typeof(string)));
             list.Columns.Add(new DataColumn("DosageUnitsCode", typeof(string)));
             list.Columns.Add(new DataColumn("DosageUnits", typeof(string)));
             list.Columns.Add(new DataColumn("AdministrationCode", typeof(string)));
@@ -383,7 +523,7 @@ namespace WebService.DataMethod
                 while (cdr.Read())
                 {
                     int OrderSubNo = 0;
-                    int Dosage = 0;
+                    //int Dosage = 0;
                     int FreqCounter = 0;
                     int FreqInteval = 0;
                     if (cdr["OrderSubNo"].ToString() != "")
@@ -393,11 +533,12 @@ namespace WebService.DataMethod
 
                     if (OrderSubNo == 1)       //只拿出OrderSubNo为1的记录
                     {
-
+                        /*
                         if (cdr["Dosage"].ToString() != "")
                         {
                             Dosage = Convert.ToInt32(cdr["Dosage"].ToString());
                         }
+                         */
                         if (cdr["FreqCounter"].ToString() != "")
                         {
                             FreqCounter = Convert.ToInt32(cdr["FreqCounter"].ToString());
@@ -447,7 +588,7 @@ namespace WebService.DataMethod
                         */
                         list.Rows.Add(cdr["VisitId"].ToString(), Convert.ToInt32(cdr["OrderNo"].ToString()), OrderSubNo, Convert.ToInt32(cdr["RepeatIndicatorCode"].ToString()), cdr["RepeatIndicator"].ToString(),
                             cdr["OrderClassCode"].ToString(), cdr["OrderClass"].ToString(), cdr["OrderCode"].ToString(), cdr["OrderContent"].ToString(),
-                            Dosage, cdr["DosageUnitsCode"].ToString(), cdr["DosageUnits"].ToString(), cdr["AdministrationCode"].ToString(),
+                            cdr["Dosage"].ToString(), cdr["DosageUnitsCode"].ToString(), cdr["DosageUnits"].ToString(), cdr["AdministrationCode"].ToString(),
                             cdr["Administration"].ToString(), DateTime.Parse(cdr["StartDateTime"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"), cdr["StopDateTime"].ToString(), cdr["Frequency"].ToString(),
                             FreqCounter, FreqInteval, cdr["FreqIntevalUnitCode"].ToString(), cdr["FreqIntevalUnit"].ToString(), Content, StartDate, EndDate);
                     }

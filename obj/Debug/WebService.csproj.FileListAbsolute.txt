@@ -8,3 +8,13 @@ C:\Users\Administrator\Desktop\WebService\bin\WebService.pdb
 C:\Users\Administrator\Desktop\WebService\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Administrator\Desktop\WebService\obj\Debug\WebService.dll
 C:\Users\Administrator\Desktop\WebService\obj\Debug\WebService.pdb
+F:\bme319\chronic disease management\github\WebService\bin\WebService.dll
+F:\bme319\chronic disease management\github\WebService\bin\WebService.pdb
+F:\bme319\chronic disease management\github\WebService\obj\Debug\ResolveAssemblyReference.cache
+F:\bme319\chronic disease management\github\WebService\obj\Debug\WebService.dll
+F:\bme319\chronic disease management\github\WebService\obj\Debug\WebService.pdb
+C:\慢病管理\github\WebService\obj\Debug\WebService.csprojResolveAssemblyReference.cache
+C:\慢病管理\github\WebService\bin\WebService.dll
+C:\慢病管理\github\WebService\bin\WebService.pdb
+C:\慢病管理\github\WebService\obj\Debug\WebService.dll
+C:\慢病管理\github\WebService\obj\Debug\WebService.pdb
