@@ -179,5 +179,55 @@ namespace WebService.DataMethod
             }
         }        
 
+        //GetNewLabTestForM2 SYF 20150928
+        public static DataTable GetNewLabTestForM2(DataConnection pclsCache, string UserId)
+        {
+            DataTable list = new DataTable();
+            list.Columns.Add(new DataColumn("Code", typeof(string)));
+            list.Columns.Add(new DataColumn("Name", typeof(string)));
+            list.Columns.Add(new DataColumn("Value", typeof(string)));
+
+            CacheCommand cmd = null;
+            CacheDataReader cdr = null;
+            try
+            {
+                if (!pclsCache.Connect())
+                {
+                    return null;
+                }
+                cmd = new CacheCommand();
+                cmd = Ps.LabTestDetails.GetNewLabTestForM2(pclsCache.CacheConnectionObject);
+                cmd.Parameters.Add("UserId", CacheDbType.NVarChar).Value = UserId;
+
+                cdr = cmd.ExecuteReader();
+                while (cdr.Read())
+                {
+                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString());
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "Ps.LabTestDetails.GetNewLabTestForM2", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+            }
+            finally
+            {
+                if ((cdr != null))
+                {
+                    cdr.Close();
+                    cdr.Dispose(true);
+                    cdr = null;
+                }
+                if ((cmd != null))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.Dispose();
+                    cmd = null;
+                }
+                pclsCache.DisConnect();
+            }
+        }
+
     }
 }
