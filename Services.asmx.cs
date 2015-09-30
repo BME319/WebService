@@ -3955,6 +3955,46 @@ namespace WebService
             }
         }
 
+        [WebMethod(Description = "获取调脂药药物名称列表 Table:Cm.MstLipidDrug Author:CSQ 20150930")]
+        // GetHypertensionDrugNameList 获取调脂药药物名称列表 CSQ 20150930
+        public DataSet GetLipidDrugNameList(string Type)
+        {
+            try
+            {
+                DataTable DT_MstLipidDrug = new DataTable();
+                DataSet DS_MstLipidDrug = new DataSet();
+                DT_MstLipidDrug = CmMstLipidDrug.GetLipidDrugList(_cnCache, Type);
+                DS_MstLipidDrug.Tables.Add(DT_MstLipidDrug);
+                return DS_MstLipidDrug;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetLipidDrugNameList", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "获取降尿酸药药物名称列表 Table:Cm.MstUricAcidReductionDrug Author:CSQ 20150930")]
+        // GetAcidDrugNameList 获取降尿酸药药物名称列表 CSQ 20150930
+        public DataSet GetAcidDrugNameList(string Type)
+        {
+            try
+            {
+                DataTable DT_MstUricAcidReductionDrug = new DataTable();
+                DataSet DS_MstUricAcidReductionDrug = new DataSet();
+                DT_MstUricAcidReductionDrug = CmMstUricAcidReductionDrug.GetAcidDrugList(_cnCache, Type);
+                DS_MstUricAcidReductionDrug.Tables.Add(DT_MstUricAcidReductionDrug);
+                return DS_MstUricAcidReductionDrug;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetAcidDrugNameList", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
         [WebMethod(Description = "获取诊断类型名称列表 Table:Cm.MstDiagnosis Author:CSQ 2014-12-03")]
         // GetDiagTypeNameList 获取诊断类型名称列表 CSQ 2014-12-03
         public DataSet GetDiagTypeNameList()
@@ -4010,6 +4050,46 @@ namespace WebService
             catch (Exception ex)
             {
                 HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetHypertensionDrugTypeNameList", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "获取调脂药药物类型名称列表 Table:Cm.MstLipidDrug Author:CSQ 20150930")]
+        // GetLipidDrugTypeNameList 获取调脂药药物类型名称列表 CSQ 20150930
+        public DataSet GetLipidDrugTypeNameList()
+        {
+            try
+            {
+                DataTable DT_MstLipidDrug = new DataTable();
+                DataSet DS_MstLipidDrug = new DataSet();
+                DT_MstLipidDrug = CmMstLipidDrug.GetTypeList(_cnCache);
+                DS_MstLipidDrug.Tables.Add(DT_MstLipidDrug);
+                return DS_MstLipidDrug;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetLipidDrugTypeNameList", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "获取降尿酸药药物类型名称列表 Table:Cm.MstUricAcidReductionDrug Author:CSQ 20150930")]
+        // GetUricAcidReductionDrugTypeNameList 获取降尿酸药药物类型名称列表 CSQ 20150930
+        public DataSet GetUricAcidReductionDrugTypeNameList()
+        {
+            try
+            {
+                DataTable DT_MstUricAcidReductionDrug = new DataTable();
+                DataSet DS_MstUricAcidReductionDrug = new DataSet();
+                DT_MstUricAcidReductionDrug = CmMstUricAcidReductionDrug.GetTypeList(_cnCache);
+                DS_MstUricAcidReductionDrug.Tables.Add(DT_MstUricAcidReductionDrug);
+                return DS_MstUricAcidReductionDrug;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetUricAcidReductionDrugTypeNameList", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
                 return null;
                 throw (ex);
             }

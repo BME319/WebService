@@ -117,6 +117,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Cache.Cm.MstLifeStyle.dll</HintPath>
     </Reference>
+    <Reference Include="Cache.Cm.MstLipidDrug, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Cache.Cm.MstLipidDrug.dll</HintPath>
+    </Reference>
     <Reference Include="Cache.Cm.MstNumbering, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Cache.Cm.MstNumbering.dll</HintPath>
@@ -140,6 +144,10 @@
     <Reference Include="Cache.Cm.MstType, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Cache.Cm.MstType.dll</HintPath>
+    </Reference>
+    <Reference Include="Cache.Cm.MstUricAcidReductionDrug, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Cache.Cm.MstUricAcidReductionDrug.dll</HintPath>
     </Reference>
     <Reference Include="Cache.Cm.MstUser, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -409,12 +417,14 @@
     <Compile Include="DataMethod\CmMstLabTestSubItems.cs" />
     <Compile Include="DataMethod\CmMstLifeStyle.cs" />
     <Compile Include="DataMethod\CmMstLifeStyleDetail.cs" />
+    <Compile Include="DataMethod\CmMstLipidDrug.cs" />
     <Compile Include="DataMethod\CmMstNumbering.cs" />
     <Compile Include="DataMethod\CmMstOperation.cs" />
     <Compile Include="DataMethod\CmMstRole.cs" />
     <Compile Include="DataMethod\CmMstSymptoms.cs" />
     <Compile Include="DataMethod\CmMstTreatment.cs" />
     <Compile Include="DataMethod\CmMstType.cs" />
+    <Compile Include="DataMethod\CmMstUricAcidReductionDrug.cs" />
     <Compile Include="DataMethod\CmMstUser.cs" />
     <Compile Include="DataMethod\CmMstUserDetail.cs" />
     <Compile Include="DataMethod\CmMstVitalSigns.cs" />
