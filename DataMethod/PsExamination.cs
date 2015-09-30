@@ -279,5 +279,54 @@ namespace WebService.DataMethod
                 pclsCache.DisConnect();
             }
         }
+
+        //SYF 20150930 心力衰竭模块中获取患者最新检查信息（ECG）
+        public static DataTable GetNewExamForM3(DataConnection pclsCache, string UserId)
+        {
+            DataTable list = new DataTable();
+            list.Columns.Add(new DataColumn("ItemCode", typeof(string)));
+            list.Columns.Add(new DataColumn("Value", typeof(string)));
+
+            CacheCommand cmd = null;
+            CacheDataReader cdr = null;
+            try
+            {
+                if (!pclsCache.Connect())
+                {
+                    return null;
+                }
+                cmd = new CacheCommand();
+                cmd = Ps.Examination.GetNewExamForM3(pclsCache.CacheConnectionObject);
+                cmd.Parameters.Add("UserId", CacheDbType.NVarChar).Value = UserId;
+
+                cdr = cmd.ExecuteReader();
+                while (cdr.Read())
+                {
+                    list.Rows.Add(cdr["ItemCode"].ToString(), cdr["Value"].ToString());
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "Ps.Examination.GetNewExamForM3", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+            }
+            finally
+            {
+                if ((cdr != null))
+                {
+                    cdr.Close();
+                    cdr.Dispose(true);
+                    cdr = null;
+                }
+                if ((cmd != null))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.Dispose();
+                    cmd = null;
+                }
+                pclsCache.DisConnect();
+            }
+        }
     }
 }

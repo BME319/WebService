@@ -5894,6 +5894,36 @@ namespace WebService
             }
         }
 
+        [WebMethod(Description = "同步患者心力衰竭模块下的某些信息   Table: Ps.LabTestDetail,Ps.Examination  Author:SYF  2015-09-30")]
+        // SynBasicInfoDetailForM3 同步患者心力衰竭模块下的某些信息  SYF  2015-09-30
+        public DataSet SynBasicInfoDetailForM3(string UserId)
+        {
+            try
+            {
+                DataSet DS_SynDetail = new DataSet();
+                DataTable DT_SynDetail = new DataTable();
+
+                DT_SynDetail = PsExamination.GetNewExamForM3(_cnCache, UserId);
+                if (DT_SynDetail != null)
+                {
+                    DS_SynDetail.Tables.Add(DT_SynDetail);
+                }
+
+                DT_SynDetail = PsLabTestDetails.GetNewLabTestForM3(_cnCache, UserId);
+                if (DT_SynDetail != null)
+                {
+                    DS_SynDetail.Tables.Add(DT_SynDetail);
+                }
+                return DS_SynDetail;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "SynBasicInfoDetailForM3", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
         #endregion
 
         #region <" 患者信息2（ClinicalInfo）LS">
