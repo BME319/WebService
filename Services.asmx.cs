@@ -10964,6 +10964,23 @@ namespace WebService
             }
         }
 
+        [WebMethod(Description = "Cm.MstTask插数 Table：Cm.MstTask Author:CSQ  20151023")]
+        public int SetMstTask(string CategoryCode, string Code, string Name, string ParentCode, string Description, int StartDate, int EndDate, int GroupHeaderFlag, int ControlType, string OptionCategory, string revUserId, string TerminalName, string TerminalIP, int DeviceType)
+        {
+            try
+            {
+                int ret = 0;
+                ret = CmMstTask.SetData(_cnCache,CategoryCode, Code, Name, ParentCode, Description, StartDate, EndDate, GroupHeaderFlag, ControlType, OptionCategory, revUserId, TerminalName, TerminalIP, DeviceType);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "SetMstTask", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return 0;
+                throw (ex);
+            }
+        }
+
         #endregion
 
         #region <文件上传>

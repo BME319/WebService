@@ -137,6 +137,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Cache.Cm.MstSymptoms.dll</HintPath>
     </Reference>
+    <Reference Include="Cache.Cm.MstTask, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Cache.Cm.MstTask.dll</HintPath>
+    </Reference>
     <Reference Include="Cache.Cm.MstTreatment, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Cache.Cm.MstTreatment.dll</HintPath>
@@ -422,6 +426,7 @@
     <Compile Include="DataMethod\CmMstOperation.cs" />
     <Compile Include="DataMethod\CmMstRole.cs" />
     <Compile Include="DataMethod\CmMstSymptoms.cs" />
+    <Compile Include="DataMethod\CmMstTask.cs" />
     <Compile Include="DataMethod\CmMstTreatment.cs" />
     <Compile Include="DataMethod\CmMstType.cs" />
     <Compile Include="DataMethod\CmMstUricAcidReductionDrug.cs" />
