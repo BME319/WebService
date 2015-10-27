@@ -220,6 +220,7 @@ namespace WebService.DataMethod
             list.Columns.Add(new DataColumn("SortNo", typeof(int)));
             list.Columns.Add(new DataColumn("ControlType", typeof(int)));
             list.Columns.Add(new DataColumn("OptionCategory", typeof(string)));
+            list.Columns.Add(new DataColumn("GroupHeaderFlag", typeof(int)));
 
 
             CacheCommand cmd = null;
@@ -242,6 +243,7 @@ namespace WebService.DataMethod
                 int ItemSeq;
                 int SortNo;
                 int ControlType;
+                int GroupHeaderFlag;
                 while (cdr.Read())
                 {
                     if (cdr["ItemSeq"].ToString() == "")
@@ -268,9 +270,17 @@ namespace WebService.DataMethod
                     {
                         ControlType = Convert.ToInt32(cdr["ControlType"]);
                     }
+                    if (cdr["GroupHeaderFlag"].ToString() == "")
+                    {
+                        GroupHeaderFlag = 0;
+                    }
+                    else
+                    {
+                        GroupHeaderFlag = Convert.ToInt32(cdr["GroupHeaderFlag"]);
+                    }
                     list.Rows.Add(cdr["UserId"].ToString(), cdr["CategoryCode"].ToString(), cdr["CategoryName"].ToString(), cdr["ItemCode"].ToString(),
                                    cdr["ItemName"].ToString(), cdr["ParentCode"].ToString(), ItemSeq, cdr["Value"].ToString(), cdr["Content"].ToString(),
-                                   cdr["Description"].ToString(), SortNo, ControlType, cdr["OptionCategory"].ToString());
+                                   cdr["Description"].ToString(), SortNo, ControlType, cdr["OptionCategory"].ToString(), GroupHeaderFlag);
 
 
 
