@@ -10981,6 +10981,107 @@ namespace WebService
             }
         }
 
+        [WebMethod(Description = "Cm.MstTask删数据 Table: Cm.MstTask Author:LY  20151030")]
+        public int DeleteMstTask(string CategoryCode, string Code)
+        {
+            try
+            {
+                int ret = 2;
+                ret = CmMstTask.DeleteMstTask(_cnCache, CategoryCode, Code);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "DeleteMstTask", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return 0;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "根据ParentCode获取任务信息 Table: Cm.MstTask Author:LY  20151029")]
+        public DataSet GetMstTaskByParentCode(string ParentCode)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                DataTable db = new DataTable();
+                db = CmMstTask.GetMstTaskByParentCode(_cnCache, ParentCode);
+                ds.Tables.Add(db);
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetMstTaskByParentCode", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "得到某个任务的详细信息 Table: Cm.MstTask Author:LY  20151029")]
+        public TaskDetailInfo GetCmTaskItemInfo(string CategoryCode, string Code)
+        {
+            try
+            {
+                TaskDetailInfo DetailInfo = new TaskDetailInfo();
+                CacheSysList GetDetailInfoList = CmMstTask.GetCmTaskItemInfo(_cnCache, CategoryCode, Code);
+                if (GetDetailInfoList != null)
+                {
+                    DetailInfo.Name = GetDetailInfoList[0];
+                    if (DetailInfo.Name == null)
+                    {
+                        DetailInfo.Name = "";
+                    }
+                    DetailInfo.ParentCode = GetDetailInfoList[1];
+                    if (DetailInfo.ParentCode == null)
+                    {
+                        DetailInfo.ParentCode = "";
+                    }
+                    DetailInfo.Description = GetDetailInfoList[2];
+                    if (DetailInfo.Description == null)
+                    {
+                        DetailInfo.Description = "";
+                    }
+                    DetailInfo.GroupHeaderFlag = Convert.ToInt32(GetDetailInfoList[3]);
+                    if (DetailInfo.GroupHeaderFlag == null)
+                    {
+                        DetailInfo.GroupHeaderFlag = 0;
+                    }
+                    DetailInfo.ControlType = Convert.ToInt32(GetDetailInfoList[4]);
+                    if (DetailInfo.ControlType == null)
+                    {
+                        DetailInfo.ControlType = 0;
+                    }
+                    DetailInfo.OptionCategory = GetDetailInfoList[5];
+                    if (DetailInfo.OptionCategory == null)
+                    {
+                        DetailInfo.OptionCategory = "";
+                    }
+                    DetailInfo.CreateDateTime = Convert.ToDateTime(GetDetailInfoList[6]);
+                    if (DetailInfo.CreateDateTime == null)
+                    {
+                        DetailInfo.CreateDateTime = new DateTime();
+                    }
+                    DetailInfo.Author = GetDetailInfoList[7]; //TDY 20150115 添加
+                    if (DetailInfo.Author == null)
+                    {
+                        DetailInfo.Author = "";
+                    }
+                    DetailInfo.AuthorName = GetDetailInfoList[8]; //TDY 20150115 添加
+                    if (DetailInfo.AuthorName == null)
+                    {
+                        DetailInfo.AuthorName = "";
+                    }
+                }
+                return DetailInfo;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "Cm.MstTask.GetCmTaskItemInfo", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
         #endregion
 
         #region <文件上传>
