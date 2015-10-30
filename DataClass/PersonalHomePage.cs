@@ -82,4 +82,17 @@ namespace WebService.DataClass
         public string Level { get; set; }
         public string Dept { get; set; }
     }
+
+    public class TaskDetailInfo
+    {
+        public string Name { get; set; }
+        public string ParentCode { get; set; }
+        public string Description { get; set; }
+        public int GroupHeaderFlag { get; set; }
+        public int ControlType { get; set; }
+        public string OptionCategory { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public string Author { get; set; }
+        public string AuthorName { get; set; }
+    }
 }
