@@ -75,7 +75,7 @@ namespace WebService.DataMethod
             }
             catch (Exception ex)
             {
-                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "PsBasicInfoDetail.GetModulesByPID", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "CmMstTask.GetMstTaskByParentCode", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
                 return null;
             }
             finally
@@ -96,6 +96,71 @@ namespace WebService.DataMethod
                 pclsCache.DisConnect();
             }
         }
+
+        public static DataTable GetTasks(DataConnection pclsCache)
+        {
+            DataTable list = new DataTable();
+            list.Columns.Add(new DataColumn("CategoryCode", typeof(string)));
+            list.Columns.Add(new DataColumn("Code", typeof(string)));
+            list.Columns.Add(new DataColumn("Name", typeof(string)));
+            list.Columns.Add(new DataColumn("ParentCode", typeof(string)));
+            list.Columns.Add(new DataColumn("Description", typeof(string)));
+            list.Columns.Add(new DataColumn("GroupHeaderFlag", typeof(int)));
+            list.Columns.Add(new DataColumn("ControlType", typeof(int)));
+            list.Columns.Add(new DataColumn("OptionCategory", typeof(string)));
+
+            CacheCommand cmd = null;
+            CacheDataReader cdr = null;
+            try
+            {
+                if (!pclsCache.Connect())
+                {
+                    //MessageBox.Show("Cache数据库连接失败");
+                    return null;
+                }
+                cmd = new CacheCommand();
+                cmd = Cm.MstTask.GetTasks(pclsCache.CacheConnectionObject);
+                cdr = cmd.ExecuteReader();
+
+                while (cdr.Read())
+                {
+                    list.Rows.Add(
+                        cdr["CategoryCode"].ToString(), 
+                        cdr["Code"].ToString(), 
+                        cdr["Name"].ToString(), 
+                        cdr["ParentCode"].ToString(), 
+                        cdr["Description"].ToString(), 
+                        Convert.ToInt32(cdr["GroupHeaderFlag"]), 
+                        Convert.ToInt32(cdr["ControlType"]), 
+                        cdr["OptionCategory"].ToString()
+                        );
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "CmMstTask.GetTasks", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+            }
+            finally
+            {
+                if ((cdr != null))
+                {
+                    cdr.Close();
+                    cdr.Dispose(true);
+                    cdr = null;
+                }
+
+                if ((cmd != null))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.Dispose();
+                    cmd = null;
+                }
+                pclsCache.DisConnect();
+            }
+        }
+
 
         public static CacheSysList GetCmTaskItemInfo(DataConnection pclsCache, string CategoryCode, string Code)
         {
