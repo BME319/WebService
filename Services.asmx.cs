@@ -2508,6 +2508,22 @@ namespace WebService
             }
         }
 
+        [WebMethod(Description = "DeleteData Table: Cm.MstInsurance Author:WF  2015-11-28")]
+        public bool DeleteInsurance(string Code)
+        {
+            try
+            {
+                bool ret = false;
+                ret = CmMstInsurance.DeleteData(_cnCache, Code) == true ? true : false;
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "SetInsurance ", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return false;
+                throw (ex);
+            }
+        }
         [WebMethod(Description = "GetInsuranceType Table: Cm.MstInsurance Author:LY  2015-06-25")]
         public DataSet GetInsuranceType()
         {
@@ -2522,6 +2538,25 @@ namespace WebService
             catch (Exception ex)
             {
                 HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetInsuranceType", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "GetInsurance Table: Cm.MstInsurance Author:WF  2015-11-27")]
+        public DataSet GetInsurance()
+        {
+            try
+            {
+                DataTable DT_MstInsurance = new DataTable();
+                DataSet DS_MstInsurance = new DataSet();
+                DT_MstInsurance = CmMstInsurance.GetInsurance(_cnCache);
+                DS_MstInsurance.Tables.Add(DT_MstInsurance);
+                return DS_MstInsurance;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetInsurance", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
                 return null;
                 throw (ex);
             }
@@ -11014,6 +11049,25 @@ namespace WebService
             catch (Exception ex)
             {
                 HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetMstTaskByParentCode", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
+        [WebMethod(Description = "获取任务信息列表（StartDate最新 EndDate不过期） Table: Cm.MstTask Author:WF  20151130")]
+        public DataSet GetTasks()
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                DataTable db = new DataTable();
+                db = CmMstTask.GetTasks(_cnCache);
+                ds.Tables.Add(db);
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetTasks", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
                 return null;
                 throw (ex);
             }
