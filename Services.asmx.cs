@@ -13536,7 +13536,12 @@ namespace WebService
                     param = content;
                     flag = true;
                 }
-
+                if (smsType == "Activision")
+                {
+                    tplId = "17510";
+                    param = content;//不要用英文,
+                    flag = true;
+                }
                 string JSONData = J6 + '"' + Jsonstring1 + '"' + ':' + '{' + '"' + Jsonstring2 + '"' + ':' + '"' + appId + '"' + ',' + '"' + Jsonstring3 + '"' + ':' + '"' + param + '"' + ',' + '"' + Jsonstring4 + '"' + ':' + '"' + tplId + '"' + ',' + '"' + Jsonstring5 + '"' + ':' + '"' + mobile + '"' + '}' + '}';
 
                 if (mobile != "" && smsType != "")
