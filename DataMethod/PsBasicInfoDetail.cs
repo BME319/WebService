@@ -122,6 +122,58 @@ namespace WebService.DataMethod
             }
         }
 
+        //GetHModulesByPID LY 2015-12-16 
+        public static DataTable GetHModulesByPID(DataConnection pclsCache, string PatientId)
+        {
+            DataTable list = new DataTable();
+            list.Columns.Add(new DataColumn("CategoryCode", typeof(string)));
+            list.Columns.Add(new DataColumn("Modules", typeof(string)));
+
+            CacheCommand cmd = null;
+            CacheDataReader cdr = null;
+
+            try
+            {
+                if (!pclsCache.Connect())
+                {
+                    //MessageBox.Show("Cache数据库连接失败");
+                    return null;
+                }
+
+                cmd = new CacheCommand();
+                cmd = Ps.BasicInfoDetail.GetHModulesByPID(pclsCache.CacheConnectionObject);
+                cmd.Parameters.Add("PatientId", CacheDbType.NVarChar).Value = PatientId;
+                cdr = cmd.ExecuteReader();
+                while (cdr.Read())
+                {
+                    list.Rows.Add(cdr["CategoryCode"].ToString(), cdr["Modules"].ToString());
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "PsBasicInfoDetail.GetHModulesByPID", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+            }
+            finally
+            {
+                if ((cdr != null))
+                {
+                    cdr.Close();
+                    cdr.Dispose(true);
+                    cdr = null;
+                }
+
+                if ((cmd != null))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.Dispose();
+                    cmd = null;
+                }
+                pclsCache.DisConnect();
+            }
+        }
+
         //Delete WF 2014-12-2 
         public static int Delete(DataConnection pclsCache, string UserId, string CategoryCode, string ItemCode, int ItemSeq)
         {
