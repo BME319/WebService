@@ -298,7 +298,7 @@ namespace WebService
 
         #region <" 医生首页(患者列表) ZAM ">
         [WebMethod(Description = "获取该医生负责的患者列表  Table:Ps.DoctorInfo Ps.BasicInfo   Author:ZAM 2015-01-17")]
-        public DataSet GetPatientsByDoctorId(string DoctorId, string VisitId)
+        public DataSet GetPatientsByDoctorId(string DoctorId, string VisitId, string UserRole)
         {
             DataTable DT_Patients = new DataTable();
             DT_Patients.Columns.Add(new DataColumn("PatientId", typeof(string)));
@@ -321,29 +321,73 @@ namespace WebService
             try
             {
                 //GetDoctorModuleList: CategoryCode
-                DataTable DT_DoctorModule = PsDoctorInfo.GetDoctorModuleList(_cnCache, DoctorId);
-                //DataCheck
-                if (DT_DoctorModule == null)
+                if (UserRole == "Doctor")
                 {
-                    return DS_Patients;
-                }
-                foreach (DataRow dr_DoctorModule in DT_DoctorModule.Rows)
-                {
-                    CategoryCode = string.Empty;
-                    CategoryCode = dr_DoctorModule["CategoryCode"].ToString();
-                    DT_PatientList = (PsDoctorInfoDetail.GetPatientsByDoctorId(_cnCache, DoctorId, CategoryCode));
-                    string genderName = "";
+                    DataTable DT_DoctorModule = PsDoctorInfo.GetDoctorModuleList(_cnCache, DoctorId);
                     //DataCheck
-                    if (DT_PatientList == null)
+                    if (DT_DoctorModule == null)
                     {
                         return DS_Patients;
                     }
-                    foreach (DataRow dr_patient in DT_PatientList.Rows)
+                    foreach (DataRow dr_DoctorModule in DT_DoctorModule.Rows)
                     {
-                        DT_Patients.Clear();
-                        DT_Patients.TableName = CategoryCode;
-                        GetPatientsInfo(ref DT_Patients, dr_patient, CategoryCode, GenderType, genderName, AlertStatus, CareLevel, VisitId);
-                        DS_Patients.Merge(DT_Patients);
+                        CategoryCode = string.Empty;
+                        CategoryCode = dr_DoctorModule["CategoryCode"].ToString();
+                        DT_PatientList = (PsDoctorInfoDetail.GetPatientsByDoctorId(_cnCache, DoctorId, CategoryCode));
+                        string genderName = "";
+                        //DataCheck
+                        if (DT_PatientList == null)
+                        {
+                            return DS_Patients;
+                        }
+                        foreach (DataRow dr_patient in DT_PatientList.Rows)
+                        {
+                            DT_Patients.Clear();
+                            DT_Patients.TableName = CategoryCode;
+                            GetPatientsInfo(ref DT_Patients, dr_patient, CategoryCode, GenderType, genderName, AlertStatus, CareLevel, VisitId);
+                            DS_Patients.Merge(DT_Patients);
+                        }
+                    }
+                }
+                if (UserRole == "HealthCoach")
+                {
+                    DT_PatientList = (PsDoctorInfoDetail.GetPatientsByDoctorId(_cnCache, DoctorId, "HM1"));
+                    string genderName = "";
+                    if (DT_PatientList != null)
+                    {
+                        foreach (DataRow dr_patient in DT_PatientList.Rows)
+                        {
+                            DT_Patients.Clear();
+                            DT_Patients.TableName = "HM1";
+                            GetPatientsInfo(ref DT_Patients, dr_patient, "HM1", GenderType, genderName, AlertStatus, CareLevel, VisitId);
+                            DS_Patients.Merge(DT_Patients);
+                        }
+                    }
+
+                    DT_PatientList = (PsDoctorInfoDetail.GetPatientsByDoctorId(_cnCache, DoctorId, "HM2"));
+                    genderName = "";
+                    if (DT_PatientList != null)
+                    {
+                        foreach (DataRow dr_patient in DT_PatientList.Rows)
+                        {
+                            DT_Patients.Clear();
+                            DT_Patients.TableName = "HM2";
+                            GetPatientsInfo(ref DT_Patients, dr_patient, "HM2", GenderType, genderName, AlertStatus, CareLevel, VisitId);
+                            DS_Patients.Merge(DT_Patients);
+                        }
+                    }
+
+                    DT_PatientList = (PsDoctorInfoDetail.GetPatientsByDoctorId(_cnCache, DoctorId, "HM3"));
+                    genderName = "";
+                    if (DT_PatientList != null)
+                    {
+                        foreach (DataRow dr_patient in DT_PatientList.Rows)
+                        {
+                            DT_Patients.Clear();
+                            DT_Patients.TableName = "HM3";
+                            GetPatientsInfo(ref DT_Patients, dr_patient, "HM3", GenderType, genderName, AlertStatus, CareLevel, VisitId);
+                            DS_Patients.Merge(DT_Patients);
+                        }
                     }
                 }
                 return DS_Patients;
@@ -406,8 +450,16 @@ namespace WebService
                 int DiagnosisType = 3;
                 string diagnosisstr = PsDiagnosis.GetDiagnosisByType(_cnCache, patientId, DiagnosisType);
 
+                DataTable DT_Module = new DataTable();
                 //Modules：DataTable to string
-                DataTable DT_Module = PsBasicInfoDetail.GetModulesByPID(_cnCache, patientId);   //single column ,several rows
+                if (CategoryCode.Substring(0, 1) == "M")
+                {
+                    DT_Module = PsBasicInfoDetail.GetModulesByPID(_cnCache, patientId);   //single column ,several rows
+                }
+                else
+                {
+                    DT_Module = PsBasicInfoDetail.GetHModulesByPID(_cnCache, patientId);
+                }
                 string modulestr = string.Empty;
                 //DataCheck
                 if (DT_Module != null)
@@ -417,7 +469,6 @@ namespace WebService
                         modulestr += "\r\n" + dr_Module["Modules"].ToString();
                     }
                 }
-
                 DT_Patients.Rows.Add(patientId, patientName, gender, age, diagnosisstr, modulestr, alertNumber, carelevel, CategoryCode);
                 return true;
             }
