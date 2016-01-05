@@ -127,12 +127,13 @@ namespace WebService.DataMethod
         }
 
         //GetNewLabTest CSQ 20150714
-        public static DataTable GetNewLabTest(DataConnection pclsCache, string UserId)
+        public static DataTable GetNewLabTestForM1(DataConnection pclsCache, string UserId)
         {
             DataTable list = new DataTable();
             list.Columns.Add(new DataColumn("Code", typeof(string)));
             list.Columns.Add(new DataColumn("Name", typeof(string)));
             list.Columns.Add(new DataColumn("Value", typeof(string)));
+            list.Columns.Add(new DataColumn("Date", typeof(DateTime)));
            
             CacheCommand cmd = null;
             CacheDataReader cdr = null;
@@ -144,7 +145,7 @@ namespace WebService.DataMethod
                     return null;
                 }
                 cmd = new CacheCommand();
-                cmd = Ps.LabTestDetails.GetNewLabTest(pclsCache.CacheConnectionObject);
+                cmd = Ps.LabTestDetails.GetNewLabTestForM1(pclsCache.CacheConnectionObject);
                 cmd.Parameters.Add("UserId", CacheDbType.NVarChar).Value = UserId;
            
                 //cmd.Parameters.Add("ItemCode", CacheDbType.NVarChar).Value = ItemCode;
@@ -152,7 +153,7 @@ namespace WebService.DataMethod
 
                 while (cdr.Read())
                 {
-                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString());
+                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString(), Convert.ToDateTime(cdr["Date"]));
                 }
                 return list;
             }
@@ -186,6 +187,7 @@ namespace WebService.DataMethod
             list.Columns.Add(new DataColumn("Code", typeof(string)));
             list.Columns.Add(new DataColumn("Name", typeof(string)));
             list.Columns.Add(new DataColumn("Value", typeof(string)));
+            list.Columns.Add(new DataColumn("Date", typeof(DateTime)));
 
             CacheCommand cmd = null;
             CacheDataReader cdr = null;
@@ -202,7 +204,7 @@ namespace WebService.DataMethod
                 cdr = cmd.ExecuteReader();
                 while (cdr.Read())
                 {
-                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString());
+                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString(), Convert.ToDateTime(cdr["Date"]));
                 }
                 return list;
             }
@@ -237,6 +239,7 @@ namespace WebService.DataMethod
             list.Columns.Add(new DataColumn("Code", typeof(string)));
             list.Columns.Add(new DataColumn("Name", typeof(string)));
             list.Columns.Add(new DataColumn("Value", typeof(string)));
+            list.Columns.Add(new DataColumn("Date", typeof(DateTime)));
 
             CacheCommand cmd = null;
             CacheDataReader cdr = null;
@@ -253,7 +256,7 @@ namespace WebService.DataMethod
                 cdr = cmd.ExecuteReader();
                 while (cdr.Read())
                 {
-                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString());
+                    list.Rows.Add(cdr["Code"].ToString(), cdr["Name"].ToString(), cdr["Value"].ToString(), Convert.ToDateTime(cdr["Date"]));
                 }
                 return list;
             }

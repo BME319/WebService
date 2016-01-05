@@ -5893,9 +5893,9 @@ namespace WebService
                 DataSet DS_SynDetail = new DataSet();
                 DataTable DT_SynDetail = new DataTable();
 
-                DT_SynDetail = PsExamination.GetNewExam(_cnCache, UserId);
+                DT_SynDetail = PsExamination.GetNewExamForM1(_cnCache, UserId);
                 DS_SynDetail.Tables.Add(DT_SynDetail);
-                DT_SynDetail = PsLabTestDetails.GetNewLabTest(_cnCache, UserId);
+                DT_SynDetail = PsLabTestDetails.GetNewLabTestForM1(_cnCache, UserId);
                 DS_SynDetail.Tables.Add(DT_SynDetail);
 
                 return DS_SynDetail;

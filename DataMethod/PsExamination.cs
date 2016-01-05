@@ -217,7 +217,7 @@ namespace WebService.DataMethod
         #endregion
 
         //CSQ 20150714
-        public static DataTable GetNewExam(DataConnection pclsCache, string UserId)
+        public static DataTable GetNewExamForM1(DataConnection pclsCache, string UserId)
         {
             DataTable list = new DataTable();
             list.Columns.Add(new DataColumn("Name1", typeof(string)));
@@ -226,6 +226,7 @@ namespace WebService.DataMethod
             list.Columns.Add(new DataColumn("Value2", typeof(string)));
             list.Columns.Add(new DataColumn("Name3", typeof(string)));
             list.Columns.Add(new DataColumn("Value3", typeof(string)));
+            list.Columns.Add(new DataColumn("Date", typeof(DateTime)));
 
             CacheCommand cmd = null;
             CacheDataReader cdr = null;
@@ -236,7 +237,7 @@ namespace WebService.DataMethod
                     return null;
                 }
                 cmd = new CacheCommand();
-                cmd = Ps.Examination.GetNewExam(pclsCache.CacheConnectionObject);
+                cmd = Ps.Examination.GetNewExamForM1(pclsCache.CacheConnectionObject);
                 cmd.Parameters.Add("UserId", CacheDbType.NVarChar).Value = UserId;
 
                 cdr = cmd.ExecuteReader();
@@ -253,7 +254,7 @@ namespace WebService.DataMethod
                     //{
                     //    ReportDateShow = str1.Substring(0, 4) + "-" + str1.Substring(4, 2) + "-" + str1.Substring(6, 2);
                     //}
-                    list.Rows.Add(cdr["Name1"].ToString(), cdr["Value1"].ToString(), cdr["Name2"].ToString(), cdr["Value2"].ToString(), cdr["Name3"].ToString(), cdr["Value3"].ToString());
+                    list.Rows.Add(cdr["Name1"].ToString(), cdr["Value1"].ToString(), cdr["Name2"].ToString(), cdr["Value2"].ToString(), cdr["Name3"].ToString(), cdr["Value3"].ToString(), Convert.ToDateTime(cdr["Date"]));
                 }
                 return list;
             }
