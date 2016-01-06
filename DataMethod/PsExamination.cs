@@ -254,7 +254,10 @@ namespace WebService.DataMethod
                     //{
                     //    ReportDateShow = str1.Substring(0, 4) + "-" + str1.Substring(4, 2) + "-" + str1.Substring(6, 2);
                     //}
-                    list.Rows.Add(cdr["Name1"].ToString(), cdr["Value1"].ToString(), cdr["Name2"].ToString(), cdr["Value2"].ToString(), cdr["Name3"].ToString(), cdr["Value3"].ToString(), Convert.ToDateTime(cdr["Date"]));
+                    if (cdr["Date"].ToString() != "")
+                    {
+                        list.Rows.Add(cdr["Name1"].ToString(), cdr["Value1"].ToString(), cdr["Name2"].ToString(), cdr["Value2"].ToString(), cdr["Name3"].ToString(), cdr["Value3"].ToString(), Convert.ToDateTime(cdr["Date"]));
+                    }
                 }
                 return list;
             }
