@@ -309,5 +309,65 @@ namespace WebService.DataMethod
                 pclsCache.DisConnect();
             }
         }
+
+        //GetPatientsMatchByDoctorId   CSQ 20160114
+        public static DataTable GetPatientsMatchByDoctorId(DataConnection pclsCache, string DoctorId,string CategoryCode)
+        {
+            DataTable list = new DataTable();
+            list.Columns.Add(new DataColumn("DoctorId", typeof(string)));
+            list.Columns.Add(new DataColumn("DoctorName", typeof(string)));
+            list.Columns.Add(new DataColumn("PatientId", typeof(string)));
+            list.Columns.Add(new DataColumn("PatientName", typeof(string)));
+            list.Columns.Add(new DataColumn("HUserId", typeof(string)));
+            list.Columns.Add(new DataColumn("HospitalCode", typeof(string)));
+            list.Columns.Add(new DataColumn("HospitalName", typeof(string)));
+            list.Columns.Add(new DataColumn("Description", typeof(string)));
+
+            CacheCommand cmd = null;
+            CacheDataReader cdr = null;
+
+            try
+            {
+                if (!pclsCache.Connect())
+                {
+                    return null;
+                }
+
+                cmd = new CacheCommand();
+                cmd = Ps.DoctorInfoDetail.GetPatientsMatchByDoctorId(pclsCache.CacheConnectionObject);
+                cmd.Parameters.Add("DoctorId", CacheDbType.NVarChar).Value = DoctorId;
+                cmd.Parameters.Add("CategoryCode", CacheDbType.NVarChar).Value = CategoryCode;
+
+                cdr = cmd.ExecuteReader();
+                while (cdr.Read())
+                {
+                    list.Rows.Add(cdr["DoctorId"].ToString(), cdr["DoctorName"].ToString(),
+                        cdr["PatientId"].ToString(), cdr["PatientName"].ToString(), cdr["HUserId"].ToString(), cdr["HospitalCode"].ToString(), cdr["HospitalName"].ToString(), cdr["Description"].ToString());
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "Ps.DoctorInfoDetail.GetPatientsMatchByDoctorId", "数据库操作异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+            }
+            finally
+            {
+                if ((cdr != null))
+                {
+                    cdr.Close();
+                    cdr.Dispose(true);
+                    cdr = null;
+                }
+
+                if ((cmd != null))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.Dispose();
+                    cmd = null;
+                }
+                pclsCache.DisConnect();
+            }
+        }
     }
 }

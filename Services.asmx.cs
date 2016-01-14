@@ -13722,6 +13722,27 @@ namespace WebService
         {
             return CmMstUserDetail.checkverification(mobile, smsType, verification);
         }
+
+        [WebMethod(Description = "获取专员负责患者在院就诊列表 Table:Ps.DoctorInfoDetail  Author:CSQ 20160114")]
+        // GetPatientsMatchByDoctorId 获取专员负责患者在院就诊列表 CSQ 20160114
+        public DataSet GetPatientsMatchByDoctorId(string DoctorId, string CategoryCode)
+        {
+            try
+            {
+                DataTable DT_MstDivision = new DataTable();
+                DataSet DS_MstDivision = new DataSet();
+                DT_MstDivision = PsDoctorInfoDetail.GetPatientsMatchByDoctorId(_cnCache, DoctorId, CategoryCode);
+                DS_MstDivision.Tables.Add(DT_MstDivision);
+                return DS_MstDivision;
+            }
+            catch (Exception ex)
+            {
+                HygeiaComUtility.WriteClientLog(HygeiaEnum.LogType.ErrorLog, "GetPatientsMatchByDoctorId", "WebService调用异常！ error information : " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return null;
+                throw (ex);
+            }
+        }
+
     }
 
 }
