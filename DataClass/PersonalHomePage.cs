@@ -81,6 +81,14 @@ namespace WebService.DataClass
         public string JobTitle { get; set; }
         public string Level { get; set; }
         public string Dept { get; set; }
+        public string GeneralScore { get; set; }
+        public string ActivityDegree { get; set; }
+        public string GeneralComment { get; set; }
+        public string commentNum { get; set; }
+        public string AssessmentNum { get; set; }
+        public string MSGNum { get; set; }
+        public string AppointmentNum { get; set; }
+        public string Activedays { get; set; }
     }
 
     public class TaskDetailInfo

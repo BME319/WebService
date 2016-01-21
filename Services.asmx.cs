@@ -5855,6 +5855,46 @@ namespace WebService
                     {
                         DetailInfo.Dept = "";
                     }
+                    DetailInfo.GeneralScore = GetDetailInfoList[8];
+                    if (DetailInfo.GeneralScore == null)
+                    {
+                        DetailInfo.GeneralScore = "";
+                    }
+                    DetailInfo.ActivityDegree = GetDetailInfoList[9];
+                    if (DetailInfo.ActivityDegree == null)
+                    {
+                        DetailInfo.ActivityDegree = "";
+                    }
+                    DetailInfo.GeneralComment = GetDetailInfoList[10];
+                    if (DetailInfo.GeneralComment == null)
+                    {
+                        DetailInfo.GeneralComment = "";
+                    }
+                    DetailInfo.commentNum = GetDetailInfoList[11];
+                    if (DetailInfo.commentNum == null)
+                    {
+                        DetailInfo.commentNum = "";
+                    }
+                    DetailInfo.AssessmentNum = GetDetailInfoList[13];
+                    if (DetailInfo.AssessmentNum == null)
+                    {
+                        DetailInfo.AssessmentNum = "";
+                    }
+                    DetailInfo.MSGNum = GetDetailInfoList[14];
+                    if (DetailInfo.MSGNum == null)
+                    {
+                        DetailInfo.MSGNum = "";
+                    }
+                    DetailInfo.AppointmentNum = GetDetailInfoList[15];
+                    if (DetailInfo.AppointmentNum == null)
+                    {
+                        DetailInfo.AppointmentNum = "";
+                    }
+                    DetailInfo.Activedays = GetDetailInfoList[16];
+                    if (DetailInfo.Activedays == null)
+                    {
+                        DetailInfo.Activedays = "";
+                    }
                 }
                 return DetailInfo;
             }
